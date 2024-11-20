@@ -20,6 +20,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 6.1.0'
   gem 'byebug'
   gem 'simplecov', require: false
+  gem 'shoulda-matchers', '~> 6.2'
+  gem 'factory_bot_rails', '~> 6.2'
+  gem 'faker'
 end
 
 group :development do
