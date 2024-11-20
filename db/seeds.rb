@@ -23,3 +23,5 @@ Product.create([
     price: 999.99
   }
 ])
+
+puts "Created"
