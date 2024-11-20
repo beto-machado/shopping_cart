@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
+  describe 'associations' do
+    it { should have_many(:cart_items) }
+    it { should have_many(:carts).through(:cart_items) }
+  end
+
   context 'when validating' do
     it 'validates presence of name' do
       product = described_class.new(price: 100)
