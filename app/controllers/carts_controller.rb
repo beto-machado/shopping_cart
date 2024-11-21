@@ -2,7 +2,6 @@ class CartsController < ApplicationController
   before_action :set_cart, only: %i[show add_item remove_product]
 
   def show
-    
     if @cart
       render json: cart_response(@cart), status: :ok
     else
@@ -15,34 +14,39 @@ class CartsController < ApplicationController
     begin
       cart.add_product(params[:product_id].to_i, params[:quantity].to_i)
       render json: cart_response(cart), status: :ok
-    rescue => e
+    rescue StandardError => e
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
 
   def add_item
-    existing_product = @cart.cart_items.find_by(product_id: params[:product_id].to_i)
-    if existing_product
+    begin
+      existing_product = @cart.cart_items.find_by(product_id: params[:product_id].to_i)
+      
+      if existing_product.nil?
+        raise StandardError, "Product not found in cart"
+      end
+  
       @cart.update_product_quantity(existing_product.product_id, params[:quantity].to_i)
       render json: cart_response(@cart), status: :ok
-    else
-      render json: { error: "Product not found in cart" }, status: :not_found
+    rescue StandardError => e
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   end
+  
 
   def remove_product
-    if @cart
+    begin
       @cart.remove_product(params[:product_id].to_i)
       render json: cart_response(@cart), status: :ok
-    else
-      render json: { error: "Cart not found" }, status: :not_found
+    rescue StandardError => e
+      render json: { error: e.message }, status: :not_found
     end
   end
 
   private
 
   def set_cart
-    byebug
     @cart = Cart.find_by(id: session[:cart_id])
   end
 

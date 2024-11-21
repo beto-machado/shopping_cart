@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/cart', to: 'carts#show'
   post '/cart', to: 'carts#add_product'
   post '/cart/add_item', to: 'carts#add_item'
-  delete 'cart/:product_id', to: 'carts#remove_product', as: :remove_product
+  delete 'cart/:product_id', to: 'carts#remove_product'
   
   get "up" => "rails/health#show", as: :rails_health_check
 
