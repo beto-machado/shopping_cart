@@ -52,6 +52,12 @@ class Cart < ApplicationRecord
     update!(status: :abandoned)
   end
 
+  def remove_if_abandoned
+    return unless status == 'abandoned' && last_interaction_at < 7.days.ago
+    destroy!
+  end
+  
+
   private
 
   def update_cart_total
