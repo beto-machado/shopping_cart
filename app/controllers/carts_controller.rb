@@ -14,7 +14,7 @@ class CartsController < ApplicationController
     begin
       cart.add_product(params[:product_id].to_i, params[:quantity].to_i)
       render json: cart_response(cart), status: :ok
-    rescue StandardError => e
+    rescue => e
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
@@ -22,14 +22,10 @@ class CartsController < ApplicationController
   def add_item
     begin
       existing_product = @cart.cart_items.find_by(product_id: params[:product_id].to_i)
-      
-      if existing_product.nil?
-        raise StandardError, "Product not found in cart"
-      end
   
       @cart.update_product_quantity(existing_product.product_id, params[:quantity].to_i)
       render json: cart_response(@cart), status: :ok
-    rescue StandardError => e
+    rescue => e
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
@@ -39,7 +35,7 @@ class CartsController < ApplicationController
     begin
       @cart.remove_product(params[:product_id].to_i)
       render json: cart_response(@cart), status: :ok
-    rescue StandardError => e
+    rescue => e
       render json: { error: e.message }, status: :not_found
     end
   end
