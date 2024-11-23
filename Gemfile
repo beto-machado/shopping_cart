@@ -23,6 +23,7 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 6.2'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'faker'
+  gem 'dotenv-rails'
 end
 
 group :development do
